@@ -111,8 +111,8 @@ def on_display():
 
 	nurb2 = gluNewNurbsRenderer()
 	gluNurbsProperty(nurb2, GLU_SAMPLING_TOLERANCE, 50.)
-	gluNurbsProperty(nurb2, GLU_DISPLAY_MODE, GLU_OUTLINE_POLYGON)
-	# gluNurbsProperty(nurb2, GLU_DISPLAY_MODE, GLU_FILL)
+	#gluNurbsProperty(nurb2, GLU_DISPLAY_MODE, GLU_OUTLINE_POLYGON)
+	gluNurbsProperty(nurb2, GLU_DISPLAY_MODE, GLU_FILL)
 	
 	gluBeginSurface(nurb2)
 	# gluNurbsSurface(nurb2, srf.uknots, srf.vknots, np.transpose(cntrl_color, (1,2,0)), type=GL_MAP2_COLOR_4)

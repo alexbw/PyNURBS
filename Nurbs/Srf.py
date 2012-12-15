@@ -101,8 +101,8 @@ class Srf:
 
     def extractV(self, u):
         "Extract curve in v-direction at parameter u."
-        if np.less(u, 0.) or np.greater(u, 1.):
-                raise NURBSError, 'Out of parameter range [0,1]'
+        # if np.less(u, 0.) or np.greater(u, 1.):
+        #         raise NURBSError, 'Out of parameter range [0,1]'
         if u == 0.:
             cntrl = self.cntrl[:,0,:]
             knots = self.vknots[:]
@@ -128,8 +128,8 @@ class Srf:
 
     def extractU(self, v):
         "Extract curve in u-direction at parameter v."
-        if np.less(v, 0.) or np.greater(v, 1.):
-                raise NURBSError, 'Out of parameter range [0,1]'
+        # if np.less(v, 0.) or np.greater(v, 1.):
+        #         raise NURBSError, 'Out of parameter range [0,1]'
         if v == 0.:
             cntrl = self.cntrl[:,:,0]
             knots = self.uknots[:]
@@ -159,16 +159,16 @@ class Srf:
         if len(vknots):
             # Force the v knot sequence to be a vector in ascending order
             vknots = np.sort(np.asarray(vknots, np.float))
-            if np.less(vknots, 0.) or np.greater(vknots, 1.):
-                raise NURBSError, 'Illegal vknots sequence'
+            # if np.less(vknots, 0.) or np.greater(vknots, 1.):
+            #     raise NURBSError, 'Illegal vknots sequence'
             coefs = np.resize(self.cntrl,(4*self.cntrl.shape[1], self.cntrl.shape[2]))
             coefs, self.vknots = bspkntins(self.degree[1], coefs, self.vknots, vknots)
             self.cntrl = np.resize(coefs, (4, self.cntrl.shape[1], coefs.shape[1]))
         if len(uknots):
             # Force the u knot sequence to be a vector in ascending order
             uknots = np.sort(np.asarray(uknots, np.float))
-            if np.less(uknots, 0.) or np.greater(uknots, 1.):
-                raise NURBSError, 'Illegal uknots sequence'
+            # if np.less(uknots, 0.) or np.greater(uknots, 1.):
+            #     raise NURBSError, 'Illegal uknots sequence'
             coefs = np.transpose(self.cntrl,(0, 2, 1))
             coefs = np.resize(coefs,(4*self.cntrl.shape[2], self.cntrl.shape[1]))
             coefs, self.uknots = bspkntins(self.degree[0], coefs, self.uknots, uknots)
@@ -179,7 +179,7 @@ class Srf:
         """Degree elevate the surface.
 	utimes - degree elevate utimes along u direction.
 	vtimes - degree elevate vtimes along v direction."""
-        if vtimes:
+        if vtimes != None:
             if vtimes < 0:
                 raise NURBSError, 'Degree must be positive'
             coefs = np.resize(self.cntrl,(4*self.cntrl.shape[1], self.cntrl.shape[2]))
@@ -188,7 +188,7 @@ class Srf:
             self.vknots = vknots[:nh + self.degree[1] + vtimes + 2]
             self.degree[1] += vtimes
             self.cntrl = np.resize(coefs, (4, self.cntrl.shape[1], coefs.shape[1]))
-        if utimes:
+        if utimes != None:
             if utimes < 0:
                 raise NURBSError, 'Degree must be positive'
             coefs = np.transpose(self.cntrl,(0, 2, 1))
@@ -243,14 +243,14 @@ class Srf:
 	ut(1,:) represents the v direction.
 	If both parameters are given then we will evaluate over a [u,v] grid."""
         ut = np.asarray(ut, np.float)
-        if np.less(ut, 0.) or np.greater(ut, 1.):
-            raise NURBSError, 'NURBS curve parameter out of range [0,1]'
+        # if np.less(ut, 0.) or np.greater(ut, 1.):
+        #     raise NURBSError, 'NURBS curve parameter out of range [0,1]'
         
-        if vt: #FIX!
+        if vt != None:
             # Evaluate over a [u,v] grid
             vt = np.asarray(vt, np.float)
-            if np.less(vt, 0.) or np.greater(vt, 1.):
-                raise NURBSError, 'NURBS curve parameter out of range [0,1]'
+            # if np.less(vt, 0.) or np.greater(vt, 1.):
+            #     raise NURBSError, 'NURBS curve parameter out of range [0,1]'
     
             val = np.resize(self.cntrl,(4*self.cntrl.shape[1],self.cntrl.shape[2]))
             val = bspeval(self.degree[1], val, self.vknots, vt)
